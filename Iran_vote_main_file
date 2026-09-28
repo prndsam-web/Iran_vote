@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIGA — Make Iran Great Again</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#0e7a3a;--red:#b71c1c;--blue:#1a4f9c;--gold:#c9a227;
+  --ink:#0f1720;--muted:#5a6675;--line:#e6ebf1;--bg:#f5f7fa;
+  --shadow:0 8px 30px rgba(15,23,32,.08);--shadow-lg:0 20px 50px rgba(15,23,32,.15);}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Vazirmatn',system-ui,sans-serif;}
+body{color:var(--ink);min-height:100vh;overflow-x:hidden;background:var(--bg);
+  background-image:repeating-linear-gradient(0deg,rgba(183,28,28,.045) 0 40px,rgba(255,255,255,0) 40px 80px);}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(circle at 10% 10%, rgba(26,79,156,.10), transparent 40%),
+             radial-gradient(circle at 90% 90%, rgba(183,28,28,.10), transparent 45%);}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:40;}
+.brand{font-weight:900;letter-spacing:.5px;font-size:1.05rem;}
+.brand .miga{color:var(--red);}
+.back-btn{display:none;background:transparent;border:1px solid var(--line);padding:8px 14px;
+  border-radius:10px;cursor:pointer;font-family:inherit;font-weight:600;color:var(--muted);transition:.2s;}
+.back-btn:hover{border-color:var(--ink);color:var(--ink);}
+.back-btn.show{display:inline-flex;align-items:center;gap:6px;}
+.hero{max-width:960px;margin:0 auto;padding:60px 22px 20px;text-align:center;}
+.hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:900;letter-spacing:-.5px;line-height:1.1;}
+.hero h1 .g{color:var(--green);} .hero h1 .r{color:var(--red);} .hero h1 .miga{color:var(--ink);}
+.hero p{color:var(--muted);margin-top:14px;font-size:1.05rem;max-width:600px;margin-inline:auto;}
+.lang-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:28px auto 0;max-width:640px;}
+.lang-btn{background:#fff;border:1.5px solid var(--line);color:var(--ink);padding:10px 22px;
+  border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.95rem;transition:.2s;}
+.lang-btn:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px);}
+.lang-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);
+  box-shadow:0 6px 18px rgba(26,79,156,.3);}
+section{display:none;animation:fade .35s ease;max-width:900px;margin:0 auto;padding:0 22px 60px;}
+section.visible{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.coat-wrap{display:flex;justify-content:center;margin:40px 0;}
+.coat{cursor:pointer;transition:.35s;max-width:340px;width:90%;
+  filter:drop-shadow(0 24px 40px rgba(15,23,32,.18));}
+.coat:hover{transform:translateY(-6px) scale(1.02);}
+.disclaimer{max-width:680px;margin:24px auto;background:#fff;border-radius:18px;padding:28px;
+  box-shadow:var(--shadow);border:2px solid var(--gold);position:relative;}
+.disclaimer::before{content:"⚠️";position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  background:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:1.4rem;border:2px solid var(--gold);}
+.disclaimer h3{text-align:center;color:var(--gold);margin-bottom:14px;font-size:1.15rem;font-weight:900;}
+.disclaimer p{color:var(--muted);line-height:2;font-size:.95rem;text-align:center;}
+.vote-options{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px;}
+@media(max-width:600px){.vote-options{grid-template-columns:1fr;}}
+.vote-opt{border:2px solid transparent;padding:22px 18px;border-radius:18px;cursor:pointer;
+  transition:.25s;background:#fff;box-shadow:var(--shadow);font-family:inherit;
+  display:flex;flex-direction:column;align-items:center;gap:14px;}
+.vote-opt:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--blue);}
+.vote-opt .flag-svg{width:130px;height:auto;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);}
+.vote-opt .label{font-weight:900;font-size:1.05rem;color:var(--ink);}
+.vote-opt .sub{font-size:.8rem;color:var(--muted);}
+.card{background:#fff;border-radius:20px;padding:34px 30px;box-shadow:var(--shadow);
+  border:1px solid var(--line);max-width:520px;margin:24px auto;}
+.card h2{text-align:center;margin-bottom:24px;font-size:1.35rem;font-weight:800;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:.88rem;margin-bottom:8px;font-weight:700;color:var(--muted);}
+.field input{width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;
+  font-size:1rem;font-family:inherit;background:#fafbfc;transition:.2s;}
+.field input:focus{outline:none;border-color:var(--blue);background:#fff;
+  box-shadow:0 0 0 4px rgba(26,79,156,.1);}
+.btn{width:100%;padding:15px;border:none;border-radius:12px;background:var(--blue);color:#fff;
+  font-size:1.02rem;font-weight:800;cursor:pointer;transition:.2s;font-family:inherit;
+  box-shadow:0 6px 18px rgba(26,79,156,.25);}
+.btn:hover{background:#143e7c;transform:translateY(-1px);}
+.btn.ghost{background:#fff;color:var(--muted);border:1.5px solid var(--line);box-shadow:none;}
+.btn.ghost:hover{color:var(--ink);border-color:var(--ink);}
+.btn.danger{background:var(--red);box-shadow:0 6px 18px rgba(183,28,28,.3);}
+.btn.danger:hover{background:#8f1414;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.error{color:var(--red);font-size:.85rem;margin-top:10px;text-align:center;font-weight:600;}
+.hint{color:var(--muted);font-size:.88rem;text-align:center;margin-bottom:16px;line-height:1.8;}
+.flag-box{text-align:center;margin:20px 0 30px;}
+.flag-box svg{width:180px;border-radius:10px;box-shadow:var(--shadow-lg);}
+.counter{max-width:900px;margin:20px auto 60px;padding:0 22px;}
+.counter-inner{background:linear-gradient(135deg,#0f1720,#1c262e);border-radius:22px;
+  padding:32px 26px;color:#fff;box-shadow:var(--shadow-lg);display:grid;
+  grid-template-columns:1fr 1fr 1fr;gap:18px;position:relative;overflow:hidden;}
+.counter-inner::before{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,rgba(255,255,255,.02) 0 30px, transparent 30px 60px);
+  pointer-events:none;}
+.counter-item{text-align:center;position:relative;z-index:1;}
+.counter-item .num{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;letter-spacing:-1px;}
+.counter-item.free .num{color:#7dffa8;}
+.counter-item.reg .num{color:#ff9b9b;}
+.counter-item .lbl{font-size:.82rem;opacity:.7;margin-top:6px;font-weight:600;}
+.counter-title{text-align:center;font-weight:800;margin-bottom:16px;color:#fff;
+  font-size:1.05rem;position:relative;z-index:1;grid-column:1/-1;}
+@media(max-width:600px){.counter-inner{grid-template-columns:1fr;}}
+.chat-box{max-width:640px;margin:30px auto;background:#fff;border-radius:20px;padding:22px;
+  box-shadow:var(--shadow);border:1px solid var(--line);}
+.chat-title{font-weight:800;margin-bottom:14px;font-size:1.05rem;display:flex;align-items:center;gap:8px;}
+.chat-title::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 4px rgba(14,122,58,.2);}
+.chat-msgs{height:280px;overflow-y:auto;background:#f7f9fc;border-radius:14px;padding:14px;
+  margin-bottom:12px;border:1px solid var(--line);display:flex;flex-direction:column;gap:8px;}
+.msg{padding:10px 14px;border-radius:12px;background:#fff;border:1px solid var(--line);
+  font-size:.92rem;max-width:85%;word-wrap:break-word;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+.msg .who{font-weight:800;color:var(--blue);font-size:.78rem;display:block;margin-bottom:4px;}
+.msg.mine{margin-left:auto;background:#eaf2ff;border-color:#cfe0ff;}
+.chat-row{display:flex;gap:8px;}
+.chat-row input{flex:1;padding:12px 16px;border:1.5px solid var(--line);border-radius:12px;
+  font-family:inherit;font-size:.95rem;background:#fafbfc;}
+.chat-row input:focus{outline:none;border-color:var(--blue);background:#fff;}
+.chat-row button{padding:12px 22px;border:none;border-radius:12px;background:var(--blue);
+  color:#fff;font-weight:700;cursor:pointer;font-family:inherit;}
+.chat-row button:hover{background:#143e7c;}
+.admin-link{position:fixed;bottom:22px;left:22px;z-index:50;}
+.admin-link button{padding:11px 18px;border:none;border-radius:12px;background:#0f1720;color:#fff;
+  font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;
+  box-shadow:var(--shadow-lg);opacity:.9;}
+.admin-link button:hover{opacity:1;transform:translateY(-2px);}
+.admin-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+@media(max-width:600px){.admin-stats{grid-template-columns:1fr;}}
+.stat{padding:18px;border-radius:14px;background:#f7f9fc;border:1px solid var(--line);text-align:center;}
+.stat .num{font-size:1.9rem;font-weight:900;letter-spacing:-1px;}
+.stat.free .num{color:var(--green);}
+.stat.reg .num{color:var(--red);}
+.stat .lbl{color:var(--muted);font-size:.85rem;font-weight:700;margin-top:6px;}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.88rem;}
+th,td{padding:12px 10px;text-align:right;border-bottom:1px solid var(--line);}
+th{background:#f7f9fc;font-weight:800;color:#333;font-size:.82rem;}
+tr:hover{background:#fafbfc;}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:.78rem;font-weight:800;}
+.badge.free{background:#e6f7ea;color:var(--green);}
+.badge.reg{background:#fde7e7;color:var(--red);}
+.status{padding:14px 18px;border-radius:12px;font-weight:800;text-align:center;margin-bottom:18px;}
+.status.open{background:#e6f7ea;color:var(--green);}
+.status.closed{background:#fde7e7;color:var(--red);}
+#toast{position:fixed;top:22px;left:50%;transform:translateX(-50%) translateY(-140%);
+  background:#0f1720;color:#fff;padding:15px 26px;border-radius:14px;font-weight:600;z-index:999;
+  transition:.4s cubic-bezier(.2,.9,.3,1.2);box-shadow:var(--shadow-lg);max-width:90%;
+  text-align:center;font-size:.92rem;}
+#toast.show{transform:translateX(-50%) translateY(0);}
+#toast.success{background:var(--green);}
+#toast.error{background:var(--red);}
+.footer{text-align:center;padding:30px 20px 80px;color:var(--muted);font-size:.88rem;line-height:2;}
+.footer b{color:var(--red);font-weight:900;}
+.footer .heart{color:var(--red);}
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="back-btn" id="backBtn">← بازگشت</button>
+  <div class="brand">make iran great again <span class="miga">(MIGA)</span></div>
+  <div style="width:90px;"></div>
+</div>
+
+<div class="hero" id="heroSection">
+  <h1><span class="g">make iran</span> <span class="r">great again</span> <span class="miga">(MIGA)</span></h1>
+  <p id="heroDesc">یک رأی برای آینده. زبان خود را انتخاب کنید و پای صندوق رأی بروید.</p>
+  <div class="lang-bar" id="langBar">
+    <button class="lang-btn" data-lang="fa">فارسی</button>
+    <button class="lang-btn" data-lang="en">English</button>
+    <button class="lang-btn" data-lang="zh">中文</button>
+    <button class="lang-btn" data-lang="ru">Русский</button>
+  </div>
+</div>
+
+<section id="coatSection">
+  <div class="coat-wrap">
+    <svg class="coat" id="coatBtn" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 80 Q80 50 120 45 L180 45 Q220 50 240 80 L255 380 L45 380 Z" fill="#1c2733" stroke="#0d151d" stroke-width="2"/>
+      <path d="M120 45 L150 130 L110 110 L90 70 Z" fill="#2c3e50" stroke="#0d151d" stroke-width="1.5"/>
+      <path d="M180 45 L150 130 L190 110 L210 70 Z" fill="#2c3e50" stroke="#0d151d" stroke-width="1.5"/>
+      <path d="M120 45 L150 130 L180 45 Z" fill="#fff" stroke="#ccc"/>
+      <path d="M150 60 L145 90 L150 120 L155 90 Z" fill="#8b0000"/>
+      <circle cx="150" cy="200" r="5" fill="#111"/>
+      <circle cx="150" cy="250" r="5" fill="#111"/>
+      <circle cx="150" cy="300" r="5" fill="#111"/>
+      <g transform="translate(105,170)">
+        <circle r="16" fill="#f5d76e" stroke="#c9a227" stroke-width="1.5"/>
+        <g stroke="#c9a227" stroke-width="1.2">
+          <line x1="0" y1="-22" x2="0" y2="-17"/><line x1="15" y1="-15" x2="12" y2="-12"/>
+          <line x1="22" y1="0" x2="17" y2="0"/><line x1="15" y1="15" x2="12" y2="12"/>
+          <line x1="0" y1="22" x2="0" y2="17"/><line x1="-15" y1="15" x2="-12" y2="12"/>
+          <line x1="-22" y1="0" x2="-17" y2="0"/><line x1="-15" y1="-15" x2="-12" y2="-12"/>
+        </g>
+        <path d="M-8 6 Q-10 2 -6 -2 Q-2 -6 4 -4 Q8 -2 8 2 L10 8 L6 8 L4 5 L0 6 L-2 9 L-6 9 Z" fill="#8b0000"/>
+        <line x1="4" y1="-2" x2="12" y2="-8" stroke="#333" stroke-width="1.5"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section id="disclaimerSection">
+  <div class="disclaimer">
+    <h3 id="discTitle">توجه مهم</h3>
+    <p id="discText"></p>
+    <button class="btn" style="margin-top:20px;" id="discAccept">متوجه شدم، ادامه</button>
+  </div>
+</section>
+
+<section id="voteOptionsSection">
+  <div class="vote-options">
+    <button class="vote-opt" data-vote="freedom" id="optFreedom">
+      <svg class="flag-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="300" height="66" fill="#0e7a3a"/>
+        <rect y="66" width="300" height="68" fill="#ffffff"/>
+        <rect y="134" width="300" height="66" fill="#b71c1c"/>
+        <g transform="translate(150,100)">
+          <circle r="22" fill="#f5d76e" stroke="#c9a227" stroke-width="1.5"/>
+          <g stroke="#c9a227" stroke-width="1.5">
+            <line x1="0" y1="-30" x2="0" y2="-23"/><line x1="21" y1="-21" x2="16" y2="-16"/>
+            <line x1="30" y1="0" x2="23" y2="0"/><line x1="21" y1="21" x2="16" y2="16"/>
+            <line x1="0" y1="30" x2="0" y2="23"/><line x1="-21" y1="21" x2="-16" y2="16"/>
+            <line x1="-30" y1="0" x2="-23" y2="0"/><line x1="-21" y1="-21" x2="-16" y2="-16"/>
+          </g>
+          <path d="M-14 8 Q-16 2 -8 -4 Q0 -10 8 -6 Q14 -2 14 4 L18 12 L12 12 L8 6 L0 8 L-4 14 L-12 14 Z" fill="#8b0000"/>
+          <line x1="8" y1="-4" x2="20" y2="-14" stroke="#333" stroke-width="2"/>
+        </g>
+      </svg>
+      <span class="label" id="lblOptFreedom">آزادی</span>
+      <span class="sub" id="lblOptFreedomSub">پرچم شیر و خورشید</span>
+    </button>
+    <button class="vote-opt" data-vote="regime" id="optRegime">
+      <svg class="flag-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="300" height="66" fill="#0e7a3a"/>
+        <rect y="66" width="300" height="68" fill="#ffffff"/>
+        <rect y="134" width="300" height="66" fill="#b71c1c"/>
+        <text x="150" y="112" font-size="34" text-anchor="middle" fill="#b71c1c" font-family="serif">﷽</text>
+      </svg>
+      <span class="label" id="lblOptRegime">رژیم فعلی</span>
+      <span class="sub" id="lblOptRegimeSub">پرچم جمهوری اسلامی</span>
+    </button>
+  </div>
+</section>
+
+<section id="voteFormSection">
+  <div class="card">
+    <h2 id="formTitle">فرم رأی‌گیری</h2>
+    <form id="voteForm" autocomplete="off">
+      <div class="field"><label id="lblName">نام</label><input name="name" required></div>
+      <div class="field"><label id="lblFamily">نام خانوادگی</label><input name="family" required></div>
+      <div class="field"><label id="lblNid">کد ملی (۱۰ رقم)</label>
+        <input name="national_id" required maxlength="10" inputmode="numeric" pattern="\d{10}"></div>
+      <div class="field"><label id="lblPhone">شماره تماس (۰۹xxxxxxxxx)</label>
+        <input name="phone" required maxlength="11" inputmode="numeric" placeholder="09xxxxxxxxx"></div>
+      <button type="submit" class="btn" id="btnSendOtp">ارسال کد تأیید</button>
+      <div class="error hidden" id="formError"></div>
+    </form>
+  </div>
+</section>
+
+<section id="otpSection">
+  <div class="card">
+    <h2 id="otpTitle">تأیید شماره تماس</h2>
+    <div class="hint" id="otpDesc"></div>
+    <div class="field">
+      <label id="lblOtp">کد ۶ رقمی</label>
+      <input id="otpInput" maxlength="6" inputmode="numeric"
+        style="text-align:center;font-size:1.5rem;letter-spacing:10px;font-weight:800;">
+    </div>
+    <button class="btn" id="btnVerifyOtp">تأیید و ثبت رأی</button>
+    <div class="error hidden" id="otpError"></div>
+  </div>
+</section>
+
+<section id="successSection">
+  <div class="flag-box" id="flagBox"></div>
+  <div class="chat-box">
+    <div class="chat-title" id="chatTitle">چت زنده</div>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-row">
+      <input id="chatInput" maxlength="300" placeholder="پیام خود را بنویسید...">
+      <button id="chatSend">ارسال</button>
+    </div>
+  </div>
+  <div style="max-width:520px;margin:0 auto;">
+    <button class="btn ghost" id="logoutBtn">خروج از حساب</button>
+  </div>
+</section>
+
+<div class="counter" id="counterSection">
+  <div class="counter-inner">
+    <div class="counter-title" id="counterTitle">🗳️ صندوق رأی زنده</div>
+    <div class="counter-item free">
+      <div class="num" id="cntFreedom">0</div>
+      <div class="lbl" id="lblCntFree">آزادی</div>
+    </div>
+    <div class="counter-item reg">
+      <div class="num" id="cntRegime">0</div>
+      <div class="lbl" id="lblCntReg">رژیم فعلی</div>
+    </div>
+    <div class="counter-item">
+      <div class="num" id="cntTotal">0</div>
+      <div class="lbl" id="lblCntTotal">مجموع</div>
+    </div>
+  </div>
+</div>
+
+<div id="adminPanel" class="hidden"></div>
+
+<div class="admin-link">
+  <button id="adminToggle">🔐 پنل مدیر</button>
+</div>
+
+<div class="footer">
+  <div id="footerText">این سایت توسط <b>سام پرند</b> ساخته شده <span class="heart">❤️</span></div>
+</div>
+
+<div id="toast"></div>
+
+<script type="module">
+/* ===== Firebase Config ===== */
+const firebaseConfig = {
+  apiKey: "AIzaSyAznNXpCNd5kR9r156l6dWe5Ij7qtxnQkQ",
+  authDomain: "iran-vote-60fe1.firebaseapp.com",
+  databaseURL: "https://iran-vote-60fe1-default-rtdb.firebaseio.com/",
+  projectId: "iran-vote-60fe1",
+  storageBucket: "iran-vote-60fe1.firebasestorage.app",
+  messagingSenderId: "795913520001",
+  appId: "1:795913520001:web:87b41d94866c50eaa25e80"
+};
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+/* ===== Translations ===== */
+const T = {
+  fa:{dir:'rtl',
+    heroDesc:'یک رأی برای آینده. زبان خود را انتخاب کنید و پای صندوق رأی بروید.',
+    discTitle:'توجه مهم',
+    discText:'تیم سازنده هیچ مسئولیتی در قبال انتخاب شما ندارند. این انتخاب شخصی شماست و به تیم ما هیچ ارتباطی ندارد. ما هیچ تبعیضی برای هیچ‌کدام از دو سمت قائل نیستیم.',
+    freedom:'آزادی', freedomSub:'پرچم شیر و خورشید',
+    regime:'رژیم فعلی', regimeSub:'پرچم جمهوری اسلامی',
+    formTitle:'فرم رأی‌گیری', name:'نام', family:'نام خانوادگی',
+    nid:'کد ملی (۱۰ رقم)', phone:'شماره تماس (۰۹xxxxxxxxx)',
+    sendOtp:'ارسال کد تأیید', otpTitle:'تأیید شماره تماس',
+    otpDesc:p=>`کد ۶ رقمی به شماره ${p} ارسال شد.`,
+    otpLbl:'کد ۶ رقمی', verify:'تأیید و ثبت رأی',
+    chatTitle:'چت زنده', chatPlaceholder:'پیام خود را بنویسید...', send:'ارسال',
+    counterTitle:'🗳️ صندوق رأی زنده',
+    free:'آزادی', reg:'رژیم فعلی', total:'مجموع',
+    logout:'خروج از حساب', back:'بازگشت',
+    errFill:'لطفاً همه فیلدها را درست پر کن.', errOtp:'کد اشتباه است.',
+    voted:'✅ رأی شما ثبت شد!', otpSent:'📱 کد تأیید: ',
+    closed:'رأی‌گیری بسته شده.',
+    footer:'این سایت توسط <b>سام پرند</b> ساخته شده ❤️',
+    dup:'این کد ملی قبلاً رأی داده.'},
+  en:{dir:'ltr',
+    heroDesc:'One vote for the future. Choose your language and head to the polls.',
+    discTitle:'Important Notice',
+    discText:'The development team bears no responsibility for your choice. This is your personal decision and has nothing to do with our team. We show no bias toward either side.',
+    freedom:'Freedom', freedomSub:'Lion & Sun Flag',
+    regime:'Current Regime', regimeSub:'Islamic Republic Flag',
+    formTitle:'Voting Form', name:'First name', family:'Last name',
+    nid:'National ID (10 digits)', phone:'Phone (09xxxxxxxxx)',
+    sendOtp:'Send verification code', otpTitle:'Verify Phone',
+    otpDesc:p=>`A 6-digit code was sent to ${p}.`,
+    otpLbl:'6-digit code', verify:'Verify & Submit',
+    chatTitle:'Live Chat', chatPlaceholder:'Type your message...', send:'Send',
+    counterTitle:'🗳️ Live Ballot',
+    free:'Freedom', reg:'Current Regime', total:'Total',
+    logout:'Logout', back:'Back',
+    errFill:'Please fill all fields correctly.', errOtp:'Invalid code.',
+    voted:'✅ Your vote was recorded!', otpSent:'📱 Code: ',
+    closed:'Voting is closed.',
+    footer:'This site was built by <b>Sam Parand</b> ❤️',
+    dup:'This national ID has already voted.'},
+  zh:{dir:'ltr',
+    heroDesc:'为未来投一票。选择您的语言，前往投票站。',
+    discTitle:'重要通知',
+    discText:'开发团队对您的选择不承担任何责任。这是您的个人决定，与我们团队无关。我们对双方不持任何偏见。',
+    freedom:'自由', freedomSub:'狮子与太阳旗',
+    regime:'现政权', regimeSub:'伊斯兰共和国旗',
+    formTitle:'投票表', name:'名字', family:'姓氏',
+    nid:'身份证号（10位）', phone:'电话（09xxxxxxxxx）',
+    sendOtp:'发送验证码', otpTitle:'验证手机',
+    otpDesc:p=>`6位验证码已发送至 ${p}。`,
+    otpLbl:'6位验证码', verify:'验证并提交',
+    chatTitle:'实时聊天', chatPlaceholder:'输入消息...', send:'发送',
+    counterTitle:'🗳️ 实时投票箱',
+    free:'自由', reg:'现政权', total:'总计',
+    logout:'登出', back:'返回',
+    errFill:'请正确填写所有字段。', errOtp:'验证码错误。',
+    voted:'✅ 您的投票已记录！', otpSent:'📱 验证码: ',
+    closed:'投票已结束。',
+    footer:'本网站由 <b>Sam Parand</b> 制作 ❤️',
+    dup:'该身份证号已投过票。'},
+  ru:{dir:'ltr',
+    heroDesc:'Один голос за будущее. Выберите язык и идите на выборы.',
+    discTitle:'Важное уведомление',
+    discText:'Команда разработчиков не несёт ответственности за ваш выбор. Это ваше личное решение, не имеющее отношения к нашей команде. Мы не проявляем предвзятости ни к одной из сторон.',
+    freedom:'Свобода', freedomSub:'Флаг Льва и Солнца',
+    regime:'Действующий режим', regimeSub:'Флаг Исламской Республики',
+    formTitle:'Форма голосования', name:'Имя', family:'Фамилия',
+    nid:'Национальный ID (10 цифр)', phone:'Телефон (09xxxxxxxxx)',
+    sendOtp:'Отправить код', otpTitle:'Подтвердить телефон',
+    otpDesc:p=>`6-значный код отправлен на ${p}.`,
+    otpLbl:'6-значный код', verify:'Подтвердить и отправить',
+    chatTitle:'Живой чат', chatPlaceholder:'Введите сообщение...', send:'Отправить',
+    counterTitle:'🗳️ Живая урна',
+    free:'Свобода', reg:'Действующий режим', total:'Всего',
+    logout:'Выход', back:'Назад',
+    errFill:'Пожалуйста, заполните все поля правильно.', errOtp:'Неверный код.',
+    voted:'✅ Ваш голос записан!', otpSent:'📱 Код: ',
+    closed:'Голосование закрыто.',
+    footer:'Этот сайт создан <b>Sam Parand</b> ❤️',
+    dup:'Этот национальный ID уже голосовал.'}
+};
+
+/* ===== State ===== */
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const clean = s => String(s ?? '').replace(/[<>"'`]/g, '').trim();
+
+let currentLang = localStorage.getItem('miga_lang') || 'fa';
+let pendingVote = null;
+let currentUser = JSON.parse(localStorage.getItem('miga_user') || 'null');
+let stateOpen = true;
+let allVotes = [];
+let allChat = [];
+
+/* ===== Data layer (Firebase) ===== */
+function loadAll(){
+  onValue(ref(db, 'votes'), snap => {
+    const val = snap.val() || {};
+    allVotes = Object.values(val);
+    refreshUI();
+  });
+  onValue(ref(db, 'chat'), snap => {
+    const val = snap.val() || {};
+    allChat = Object.values(val).sort((a,b)=>a.t-b.t);
+    renderChat();
+  });
+  onValue(ref(db, 'state'), snap => {
+    stateOpen = (snap.val()?.open !== false);
+  });
+}
+async function addVote(rec){ await push(ref(db, 'votes'), rec); }
+async function addChat(rec){ await push(ref(db, 'chat'), rec); }
+async function setVotingOpen(open){ await push(ref(db, 'state'), { open, t: Date.now() }); }
+
+/* ===== Navigation ===== */
+const STEPS = ['#heroSection','#coatSection','#disclaimerSection','#voteOptionsSection',
+                '#voteFormSection','#otpSection','#successSection'];
+let history = ['#heroSection'];
+function show(id, push=true){
+  $$('section, .hero').forEach(s=>s.classList.remove('visible'));
+  const el = $(id); if(el) el.classList.add('visible');
+  if(push && history[history.length-1] !== id) history.push(id);
+  const idx = STEPS.indexOf(id);
+  const bb = $('#backBtn');
+  if(idx > 0 && id !== '#successSection') bb.classList.add('show');
+  else bb.classList.remove('show');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+$('#backBtn').addEventListener('click', ()=>{
+  if(history.length > 1){ history.pop(); show(history[history.length-1] || '#heroSection', false); }
+});
+
+/* ===== Language ===== */
+function applyLang(lang){
+  currentLang = lang;
+  localStorage.setItem('miga_lang', lang);
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = t.dir;
+  $$('.lang-btn').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
+  $('#backBtn').textContent = '← ' + t.back;
+  $('#heroDesc').textContent = t.heroDesc;
+  $('#discTitle').textContent = t.discTitle;
+  $('#discText').textContent = t.discText;
+  $('#lblOptFreedom').textContent = t.freedom;
+  $('#lblOptFreedomSub').textContent = t.freedomSub;
+  $('#lblOptRegime').textContent = t.regime;
+  $('#lblOptRegimeSub').textContent = t.regimeSub;
+  $('#formTitle').textContent = t.formTitle;
+  $('#lblName').textContent = t.name;
+  $('#lblFamily').textContent = t.family;
+  $('#lblNid').textContent = t.nid;
+  $('#lblPhone').textContent = t.phone;
+  $('#btnSendOtp').textContent = t.sendOtp;
+  $('#otpTitle').textContent = t.otpTitle;
+  $('#lblOtp').textContent = t.otpLbl;
+  $('#btnVerifyOtp').textContent = t.verify;
+  $('#chatTitle').textContent = t.chatTitle;
+  $('#chatInput').placeholder = t.chatPlaceholder;
+  $('#chatSend').textContent = t.send;
+  $('#counterTitle').textContent = t.counterTitle;
+  $('#lblCntFree').textContent = t.free;
+  $('#lblCntReg').textContent = t.reg;
+  $('#lblCntTotal').textContent = t.total;
+  $('#logoutBtn').textContent = t.logout;
+  $('#footerText').innerHTML = t.footer;
+}
+$$('.lang-btn').forEach(b=> b.addEventListener('click', ()=> applyLang(b.dataset.lang)));
+
+/* ===== Flow ===== */
+$('#coatBtn').addEventListener('click', ()=>{
+  if(!stateOpen){ toast(T[currentLang].closed, 'error'); return; }
+  show('#disclaimerSection');
+});
+$('#discAccept').addEventListener('click', ()=> show('#voteOptionsSection'));
+$$('.vote-opt').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    if(!stateOpen){ toast(T[currentLang].closed, 'error'); return; }
+    pendingVote = { vote: btn.dataset.vote };
+    show('#voteFormSection');
+  });
+});
+
+$('#voteForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const f = e.target;
+  const err = $('#formError'); err.classList.add('hidden');
+  const body = {
+    name: clean(f.name.value), family: clean(f.family.value),
+    national_id: clean(f.national_id.value), phone: clean(f.phone.value),
+    vote: pendingVote?.vote
+  };
+  if(!body.name || !body.family || !/^09\d{9}$/.test(body.phone) || !/^\d{10}$/.test(body.national_id)){
+    err.textContent = T[currentLang].errFill; err.classList.remove('hidden'); return;
+  }
+  if(allVotes.some(v=>v.national_id === body.national_id)){
+    err.textContent = T[currentLang].dup; err.classList.remove('hidden'); return;
+  }
+  const otp = String(Math.floor(100000 + Math.random()*900000));
+  pendingVote = { ...pendingVote, ...body, otp };
+  toast(T[currentLang].otpSent + otp, 'success', 8000);
+  $('#otpDesc').textContent = T[currentLang].otpDesc(body.phone);
+  $('#otpInput').value = '';
+  show('#otpSection');
+});
+
+$('#btnVerifyOtp').addEventListener('click', async ()=>{
+  const err = $('#otpError'); err.classList.add('hidden');
+  const code = $('#otpInput').value.trim();
+  if(!pendingVote || code !== pendingVote.otp){
+    err.textContent = T[currentLang].errOtp; err.classList.remove('hidden'); return;
+  }
+  const rec = {
+    name: pendingVote.name, family: pendingVote.family,
+    national_id: pendingVote.national_id, phone: pendingVote.phone,
+    vote: pendingVote.vote, t: Date.now()
+  };
+  await addVote(rec);
+  currentUser = rec;
+  localStorage.setItem('miga_user', JSON.stringify(currentUser));
+  toast(T[currentLang].voted, 'success');
+  renderFlag(); renderChat();
+  pendingVote = null;
+  show('#successSection');
+});
+
+$('#logoutBtn').addEventListener('click', ()=>{
+  localStorage.removeItem('miga_user');
+  currentUser = null; pendingVote = null;
+  $('#voteForm').reset();
+  history = ['#heroSection']; show('#heroSection', false);
+});
+
+/* ===== Flag ===== */
+function renderFlag(){
+  if(!currentUser) return;
+  const box = $('#flagBox');
+  if(currentUser.vote === 'freedom'){
+    box.innerHTML = `<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="66" fill="#0e7a3a"/><rect y="66" width="300" height="68" fill="#fff"/>
+      <rect y="134" width="300" height="66" fill="#b71c1c"/>
+      <g transform="translate(150,100)">
+        <circle r="22" fill="#f5d76e" stroke="#c9a227" stroke-width="1.5"/>
+        <g stroke="#c9a227" stroke-width="1.5">
+          <line x1="0" y1="-30" x2="0" y2="-23"/><line x1="21" y1="-21" x2="16" y2="-16"/>
+          <line x1="30" y1="0" x2="23" y2="0"/><line x1="21" y1="21" x2="16" y2="16"/>
+          <line x1="0" y1="30" x2="0" y2="23"/><line x1="-21" y1="21" x2="-16" y2="16"/>
+          <line x1="-30" y1="0" x2="-23" y2="0"/><line x1="-21" y1="-21" x2="-16" y2="-16"/>
+        </g>
+        <path d="M-14 8 Q-16 2 -8 -4 Q0 -10 8 -6 Q14 -2 14 4 L18 12 L12 12 L8 6 L0 8 L-4 14 L-12 14 Z" fill="#8b0000"/>
+        <line x1="8" y1="-4" x2="20" y2="-14" stroke="#333" stroke-width="2"/>
+      </g></svg>`;
+  } else {
+    box.innerHTML = `<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="66" fill="#0e7a3a"/><rect y="66" width="300" height="68" fill="#fff"/>
+      <rect y="134" width="300" height="66" fill="#b71c1c"/>
+      <text x="150" y="112" font-size="34" text-anchor="middle" fill="#b71c1c" font-family="serif">﷽</text></svg>`;
+  }
+}
+
+/* ===== Chat ===== */
+function renderChat(){
+  const box = $('#chatMsgs');
+  box.innerHTML = '';
+  allChat.slice(-60).forEach(m=>{
+    const d = document.createElement('div'); d.className = 'msg';
+    if(currentUser && m.who === `${currentUser.name} ${currentUser.family}`) d.classList.add('mine');
+    const w = document.createElement('span'); w.className='who'; w.textContent = m.who;
+    const t = document.createElement('span'); t.textContent = m.text;
+    d.append(w, t); box.appendChild(d);
+  });
+  box.scrollTop = box.scrollHeight;
+}
+$('#chatSend').addEventListener('click', async ()=>{
+  if(!currentUser) return;
+  const inp = $('#chatInput');
+  const text = clean(inp.value);
+  if(!text) return;
+  await addChat({ who: `${currentUser.name} ${currentUser.family}`, text, t: Date.now() });
+  inp.value = '';
+});
+$('#chatInput').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#chatSend').click(); }});
+
+/* ===== Counter ===== */
+function refreshUI(){
+  const free = allVotes.filter(v=>v.vote==='freedom').length;
+  const reg  = allVotes.filter(v=>v.vote==='regime').length;
+  $('#cntFreedom').textContent = free;
+  $('#cntRegime').textContent = reg;
+  $('#cntTotal').textContent = allVotes.length;
+  if(isAdmin) renderAdminTable();
+}
+
+/* ===== Admin ===== */
+let isAdmin = false;
+$('#adminToggle').addEventListener('click', ()=>{
+  if(!isAdmin){ showAdminLogin(); return; }
+  showAdminContent();
+});
+function showAdminLogin(){
+  $$('section, .hero, #counterSection, .footer').forEach(s=>s.classList.add('hidden'));
+  const panel = $('#adminPanel');
+  panel.classList.remove('hidden');
+  panel.innerHTML = `
+    <div class="card" style="max-width:420px;">
+      <h2>🔐 ورود مدیر</h2>
+      <div class="field"><label>رمز عبور</label>
+        <input type="password" id="adminPass" placeholder="رمز را وارد کنید"></div>
+      <button class="btn" id="adminLoginBtn">ورود</button>
+      <button class="btn ghost" id="adminBackBtn" style="margin-top:10px;">بازگشت به سایت</button>
+      <div class="error hidden" id="adminError"></div>
+    </div>`;
+  $('#adminLoginBtn').addEventListener('click', ()=>{
+    if($('#adminPass').value === 'سام'){ isAdmin = true; showAdminContent(); }
+    else { const e=$('#adminError'); e.textContent='رمز اشتباه است.'; e.classList.remove('hidden'); }
+  });
+  $('#adminPass').addEventListener('keydown', e=>{ if(e.key==='Enter') $('#adminLoginBtn').click(); });
+  $('#adminBackBtn').addEventListener('click', backToSite);
+}
+function showAdminContent(){
+  const panel = $('#adminPanel');
+  panel.classList.remove('hidden');
+  $$('section, .hero, #counterSection, .footer').forEach(s=>s.classList.add('hidden'));
+  panel.innerHTML = `
+    <div class="card" style="max-width:100%;margin:20px auto;">
+      <div class="status ${stateOpen?'open':'closed'}" id="statusBar">
+        ${stateOpen?'🟢 رأی‌گیری فعال':'🔴 رأی‌گیری بسته شده'}
+      </div>
+      <div class="admin-stats">
+        <div class="stat free"><div class="num" id="sFree">0</div><div class="lbl">آزادی</div></div>
+        <div class="stat reg"><div class="num" id="sReg">0</div><div class="lbl">رژیم فعلی</div></div>
+        <div class="stat"><div class="num" id="sTotal">0</div><div class="lbl">مجموع</div></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+        <button class="btn danger" id="admEnd">⏹ پایان رأی‌گیری و ارسال پیامک</button>
+        <button class="btn ghost" id="admBack">بازگشت به سایت</button>
+      </div>
+      <h3 style="margin-top:20px;">لیست رأی‌دهندگان</h3>
+      <div style="overflow-x:auto;">
+        <table id="admTable"><thead><tr>
+          <th>#</th><th>نام</th><th>خانوادگی</th><th>کد ملی</th>
+          <th>شماره</th><th>رأی</th><th>زمان</th>
+        </tr></thead><tbody></tbody></table>
+      </div>
+      <div id="admResult" style="margin-top:20px;text-align:center;font-weight:800;font-size:1.1rem;"></div>
+    </div>`;
+  renderAdminTable();
+  $('#admBack').addEventListener('click', backToSite);
+  $('#admEnd').addEventListener('click', endVoting);
+}
+function renderAdminTable(){
+  const free = allVotes.filter(v=>v.vote==='freedom').length;
+  const reg  = allVotes.filter(v=>v.vote==='regime').length;
+  if($('#sFree')) $('#sFree').textContent = free;
+  if($('#sReg'))  $('#sReg').textContent = reg;
+  if($('#sTotal'))$('#sTotal').textContent = allVotes.length;
+  const tb = $('#admTable tbody'); if(!tb) return;
+  tb.innerHTML = '';
+  allVotes.slice().sort((a,b)=>b.t-a.t).forEach((u, i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${i+1}</td><td>${esc(u.name)}</td><td>${esc(u.family)}</td>
+      <td>${esc(u.national_id)}</td><td>${esc(u.phone)}</td>
+      <td>${u.vote==='freedom'?'<span class="badge free">آزادی</span>':'<span class="badge reg">رژیم فعلی</span>'}</td>
+      <td>${new Date(u.t).toLocaleString('fa-IR')}</td>`;
+    tb.appendChild(tr);
+  });
+}
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+async function endVoting(){
+  if(!confirm('مطمئنی؟ رأی‌گیری بسته می‌شود و پیامک نتیجه به همه ارسال می‌شود.')) return;
+  await setVotingOpen(false);
+  stateOpen = false;
+  const free = allVotes.filter(v=>v.vote==='freedom').length;
+  const reg  = allVotes.filter(v=>v.vote==='regime').length;
+  const winner = free === reg ? 'مساوی' : free > reg ? 'آزادی' : 'رژیم فعلی';
+  allVotes.forEach(v=> console.log(`[SMS-DEMO] → ${v.phone}: نتیجه: ${winner}`));
+  $('#admResult').textContent = `🏆 برنده: ${winner}  |  📱 پیامک به ${allVotes.length} نفر ارسال شد (شبیه‌سازی)`;
+  if($('#statusBar')){ $('#statusBar').textContent='🔴 رأی‌گیری بسته شده'; $('#statusBar').className='status closed'; }
+  toast(`برنده: ${winner} — پیامک شبیه‌سازی شد`, 'success', 6000);
+}
+
+function backToSite(){
+  $('#adminPanel').classList.add('hidden');
+  $$('section, .hero, #counterSection, .footer').forEach(s=>s.classList.remove('hidden'));
+  const last = history[history.length-1] || '#heroSection';
+  show(last, false);
+}
+
+/* ===== Toast ===== */
+function toast(msg, type='', ms=3500){
+  const t = $('#toast');
+  t.textContent = msg; t.className = 'show ' + type;
+  clearTimeout(t._tid); t._tid = setTimeout(()=> t.className = '', ms);
+}
+
+/* ===== Init ===== */
+(function init(){
+  applyLang(currentLang);
+  loadAll();
+  if(currentUser){
+    renderFlag(); renderChat();
+    show('#successSection', false);
+    history = ['#heroSection','#successSection'];
+  } else {
+    show('#heroSection', false);
+  }
+})();
+</script>
+</body>
+</html>
